@@ -3,26 +3,8 @@
  * Creates a DevTrackr instance with all required methods
  */
 
-import { DevTrackrConfig, DevTrackrInstance, RateLimitInfo } from './types';
+import { DevTrackrConfig, DevTrackrInstance } from './types';
 import { DevTrackrValidationError } from './errors';
-import { getRateLimitInfo } from './utils/rateLimit';
-
-function validateUsername(username: string): void {
-  if (!username) {
-    throw new DevTrackrValidationError('Username is required and cannot be empty.');
-  }
-  if (typeof username !== 'string') {
-    throw new DevTrackrValidationError('Username must be a string.');
-  }
-  if (username.trim().length === 0) {
-    throw new DevTrackrValidationError('Username cannot be whitespace only.');
-  }
-  // GitHub usernames can contain alphanumeric and hyphens, but not start/end with hyphen
-  // This is a basic validation - GitHub API will reject invalid usernames anyway
-  if (username.length > 39) {
-    throw new DevTrackrValidationError('Username cannot exceed 39 characters (GitHub limit).');
-  }
-}
 import { fetchUser } from './github/user';
 import { fetchUserRepositories } from './github/repos';
 import { fetchUserCommits } from './github/commits';
@@ -47,15 +29,32 @@ import type {
   ActivityTimelineOptions,
 } from './types';
 
+function validateUsername(username: string): void {
+  if (!username) {
+    throw new DevTrackrValidationError('Username is required and cannot be empty.');
+  }
+  if (typeof username !== 'string') {
+    throw new DevTrackrValidationError('Username must be a string.');
+  }
+  if (username.trim().length === 0) {
+    throw new DevTrackrValidationError('Username cannot be whitespace only.');
+  }
+  // GitHub usernames can contain alphanumeric and hyphens, but not start/end with hyphen
+  // This is a basic validation - GitHub API will reject invalid usernames anyway
+  if (username.length > 39) {
+    throw new DevTrackrValidationError('Username cannot exceed 39 characters (GitHub limit).');
+  }
+}
+
 export function createDevTrackr(config: DevTrackrConfig): DevTrackrInstance {
   const { token } = config;
 
-  if (!token) {
-    throw new DevTrackrValidationError('GitHub token is required. Provide a token in the config object.');
+  if (!token || typeof token !== 'string') {
+    throw new DevTrackrValidationError('GitHub token is required and must be a string.');
   }
 
-  if (typeof token !== 'string' || token.trim().length === 0) {
-    throw new DevTrackrValidationError('GitHub token must be a non-empty string.');
+  if (token.trim().length === 0) {
+    throw new DevTrackrValidationError('GitHub token cannot be empty.');
   }
 
   return {
@@ -153,10 +152,6 @@ export function createDevTrackr(config: DevTrackrConfig): DevTrackrInstance {
       const normalizedCommits = normalizeCommits(githubCommits);
       const days = options?.days || 365;
       return createActivityTimeline(normalizedCommits, days);
-    },
-
-    getRateLimitInfo(): RateLimitInfo | null {
-      return getRateLimitInfo();
     },
   };
 }

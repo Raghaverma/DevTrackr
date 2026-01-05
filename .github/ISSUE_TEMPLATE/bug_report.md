@@ -21,9 +21,9 @@ What you expected to happen.
 What actually happened.
 
 ## Environment
-- Node.js version:
-- DevTrackr version:
-- OS:
+- Node.js version: 
+- Package version: 
+- OS: 
 
 ## Code Example
 ```typescript
@@ -37,4 +37,3 @@ Paste error message here if applicable
 
 ## Additional Context
 Add any other context about the problem here.
-

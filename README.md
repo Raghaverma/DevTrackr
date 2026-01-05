@@ -1,6 +1,20 @@
 # DevTrackr SDK
 
-Production-grade npm package for fetching and normalizing GitHub developer data.
+[![CI](https://github.com/Raghaverma/Devtrackrnpm/actions/workflows/ci.yml/badge.svg)](https://github.com/Raghaverma/Devtrackrnpm/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/devtrackr.svg)](https://www.npmjs.com/package/devtrackr)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+
+Production-grade npm package for fetching and normalizing GitHub developer data. Built with TypeScript, fully typed, and ready for production use.
+
+## Features
+
+- ✅ **Type-Safe**: Full TypeScript support with exported types
+- ✅ **Tree-Shakeable**: Zero side effects, optimized bundle size
+- ✅ **Normalized Data**: UI-ready JSON responses, no raw GitHub API responses
+- ✅ **Error Handling**: Typed errors with rate limit information
+- ✅ **Zero Dependencies**: Uses native fetch only
+- ✅ **Dual Format**: ESM and CommonJS support
 
 ## Installation
 
@@ -8,41 +22,64 @@ Production-grade npm package for fetching and normalizing GitHub developer data.
 npm install devtrackr
 ```
 
-## Usage
+### Requirements
+
+- **Node.js**: >=18.0.0
+- **GitHub Personal Access Token**: Required for API authentication
+
+```bash
+npm install devtrackr
+```
+
+## Quick Start
 
 ```typescript
 import { createDevTrackr } from 'devtrackr';
 
+// Initialize with your GitHub token
 const devtrackr = createDevTrackr({
-  token: 'your-github-personal-access-token'
+  token: process.env.GITHUB_TOKEN! // Load from environment variable
 });
 
-// Get user profile
+// Fetch user profile
 const profile = await devtrackr.getProfile('octocat');
+console.log(`${profile.name} has ${profile.followers} followers`);
+```
 
-// Get repositories
-const repos = await devtrackr.getRepositories('octocat', {
-  sort: 'updated',
-  direction: 'desc',
-  perPage: 10
-});
+## Usage with Environment Variables
 
-// Get recent commits
-const commits = await devtrackr.getRecentCommits('octocat', {
-  perPage: 30
-});
+### Using .env file
 
-// Get language statistics
-const languageStats = await devtrackr.getLanguageStats('octocat');
+Create a `.env` file in your project root:
 
-// Get contribution statistics
-const contributionStats = await devtrackr.getContributionStats('octocat');
+```bash
+GITHUB_TOKEN=your_github_personal_access_token_here
+```
 
-// Get activity timeline
-const timeline = await devtrackr.getActivityTimeline('octocat', {
-  days: 365
+Then use it in your code:
+
+```typescript
+import { createDevTrackr } from 'devtrackr';
+import 'dotenv/config'; // If using dotenv package
+
+const devtrackr = createDevTrackr({
+  token: process.env.GITHUB_TOKEN!
 });
 ```
+
+### Using system environment variables
+
+**Windows (PowerShell):**
+```powershell
+$env:GITHUB_TOKEN="your_token_here"
+```
+
+**Linux/macOS:**
+```bash
+export GITHUB_TOKEN="your_token_here"
+```
+
+## Complete Examples
 
 ## API
 

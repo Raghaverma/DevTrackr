@@ -1,5 +1,5 @@
 ## Description
-Brief description of changes in this PR.
+Brief description of changes.
 
 ## Type of Change
 - [ ] Bug fix (non-breaking change which fixes an issue)
@@ -8,28 +8,18 @@ Brief description of changes in this PR.
 - [ ] Documentation update
 - [ ] Refactoring (no functional changes)
 
-## Related Issues
-Closes #
-
-## Changes Made
-- 
-- 
-- 
-
 ## Testing
-- [ ] Unit tests added/updated
-- [ ] Integration tests added/updated
-- [ ] Manual testing performed
+- [ ] Tests pass locally
+- [ ] Added tests for new functionality
+- [ ] Updated tests for changed functionality
 
 ## Checklist
-- [ ] Code follows the project's style guidelines
+- [ ] Code follows project style guidelines
 - [ ] Self-review completed
 - [ ] Comments added for complex code
-- [ ] Documentation updated (if needed)
+- [ ] Documentation updated
 - [ ] No new warnings generated
-- [ ] Tests pass locally
 - [ ] TypeScript types are correct
 
-## Screenshots (if applicable)
-Add screenshots to help explain your changes.
-
+## Related Issues
+Closes #
